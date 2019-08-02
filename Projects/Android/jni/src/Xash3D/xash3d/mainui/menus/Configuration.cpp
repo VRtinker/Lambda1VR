@@ -66,9 +66,9 @@ void CMenuOptions::_Init( void )
 		PC_AUDIO, UI_Audio_Menu, QMF_NOTIFY );
 	AddButton( "Video",    "Change screen size, video mode and gamma",
 		PC_VIDEO, UI_Video_Menu, QMF_NOTIFY );
+    AddButton( "VR Options",    "Change VR related settings",
+        PC_TOUCH, UI_Touch_Menu, QMF_NOTIFY );
 #ifndef VR
-	AddButton( "Touch",    "Change touch settings and buttons",
-		PC_TOUCH, UI_Touch_Menu, QMF_NOTIFY );
 	AddButton( "Gamepad",  "Change gamepad axis and button settings",
 		PC_GAMEPAD, UI_GamePad_Menu, QMF_NOTIFY );
 	AddButton( "Update",   "Check for updates",
