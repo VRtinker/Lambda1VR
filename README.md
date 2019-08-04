@@ -133,7 +133,7 @@ I would like to thank the following teams and individual for making this possibl
 * Baggyg - My long-time VR friend whose roles in this have been varied and all helpful, also the creator of excellent websites/artwork/assets for this mod
 * The Xash3D team
 * GLE4ES without which this wouldn't have worked at all: https://github.com/ptitSeb/gl4es
-* Max Vollmer for the initial 6DoF weapons piece, the code for which can be seen here: https://github.com/maxvollmer/Half-Life-VR
+* Max Vollmer for their 2017 Half-Life VR mod, of which I used and modified the 6DoF weapons code for this mod, the original code for which can be seen here: https://github.com/maxvollmer/Half-Life-VR
 * The SideQuest team - For making it easy for people to install this
 * https://github.com/formicsapien for the weapon models that work much better with 6DoF
 
@@ -144,3 +144,9 @@ Lambda1VR is not affiliated, associated, authorized, endorsed by, or in any way 
 Lambda1VR is an unofficial port of the Xash3D-FWGS engine, which was originally written by Uncle Mike as a fully compatible open-source GoldSrc engine alternative, more details on that extraordinary project can be found here: https://www.moddb.com/engines/xash3d-engine
 However this port (Lambda1VR) is not affiliated, associated, authorized, endorsed by, or in any way officially connected with the Xash3D team.
 This port was developed using the now deprecated Xash3D port found here: https://github.com/FWGS/xash3d
+
+
+## Licensing
+
+Lambda1VR is covered by the GPL 3.0 license which is inherited from the Xash3D-FWGS project.
+The HLSDK sub-repository and associated works (which include the original 6DoF weapons code by Max Vollmer) are in a separate repository wholly covered with the Valve Corporation Half Life 1 SDK LICENSE (https://github.com/DrBeef/hlsdk-xash3d).
