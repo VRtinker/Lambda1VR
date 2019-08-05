@@ -214,10 +214,10 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 			}
 
 			//Use (Action)
-			if ((leftTrackedRemoteState_new.Buttons & ovrButton_Joystick) !=
-				(leftTrackedRemoteState_old.Buttons & ovrButton_Joystick)) {
+			if ((leftTrackedRemoteState_new.Buttons & ovrButton_Y) !=
+				(leftTrackedRemoteState_old.Buttons & ovrButton_Y)) {
 
-				sendButtonAction("+use", (leftTrackedRemoteState_new.Buttons & ovrButton_Joystick));
+				sendButtonAction("+use", (leftTrackedRemoteState_new.Buttons & ovrButton_Y));
 			}
 
 			static bool finishReloadNextFrame = false;
@@ -289,9 +289,9 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 				  positional_movementSideways,
 				  positional_movementForward);
 
-			//Jump (Y Button)
+			//Jump (X Button)
 			handleTrackedControllerButton(&leftTrackedRemoteState_new,
-										  &leftTrackedRemoteState_old, ovrButton_Y, K_SPACE);
+										  &leftTrackedRemoteState_old, ovrButton_X, K_SPACE);
 
 			//We need to record if we have started firing primary so that releasing trigger will stop firing, if user has pushed grip
 			//in meantime, then it wouldn't stop the gun firing and it would get stuck
@@ -317,11 +317,11 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 				}
 			}
 
-			//Duck with X
-			if ((leftTrackedRemoteState_new.Buttons & ovrButton_X) !=
-				(leftTrackedRemoteState_old.Buttons & ovrButton_X)) {
+			//Duck with GripTrigger
+			if ((leftTrackedRemoteState_new.Buttons & ovrButton_GripTrigger) !=
+				(leftTrackedRemoteState_old.Buttons & ovrButton_GripTrigger)) {
 
-				sendButtonAction("+duck", (leftTrackedRemoteState_new.Buttons & ovrButton_X));
+				sendButtonAction("+duck", (leftTrackedRemoteState_new.Buttons & ovrButton_GripTrigger));
 			}
 
 			//Weapon Chooser

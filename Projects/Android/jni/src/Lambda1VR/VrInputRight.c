@@ -215,10 +215,10 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
             }
 
             //Use (Action)
-            if ((rightTrackedRemoteState_new.Buttons & ovrButton_Joystick) !=
-                 (rightTrackedRemoteState_old.Buttons & ovrButton_Joystick)) {
+            if ((rightTrackedRemoteState_new.Buttons & ovrButton_B) !=
+                 (rightTrackedRemoteState_old.Buttons & ovrButton_B)) {
 
-                sendButtonAction("+use", (rightTrackedRemoteState_new.Buttons & ovrButton_Joystick));
+                sendButtonAction("+use", (rightTrackedRemoteState_new.Buttons & ovrButton_B));
             }
 
             static bool finishReloadNextFrame = false;
@@ -290,9 +290,9 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
                   positional_movementSideways,
                   positional_movementForward);
 
-            //Jump (B Button)
+            //Jump (A Button)
             handleTrackedControllerButton(&rightTrackedRemoteState_new,
-                                          &rightTrackedRemoteState_old, ovrButton_B, K_SPACE);
+                                          &rightTrackedRemoteState_old, ovrButton_A, K_SPACE);
 
             //We need to record if we have started firing primary so that releasing trigger will stop firing, if user has pushed grip
             //in meantime, then it wouldn't stop the gun firing and it would get stuck
@@ -318,11 +318,11 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
 				}
 			}
 
-            //Duck with A
-            if ((rightTrackedRemoteState_new.Buttons & ovrButton_A) !=
-                (rightTrackedRemoteState_old.Buttons & ovrButton_A)) {
+            //Duck with GripTrigger
+            if ((rightTrackedRemoteState_new.Buttons & ovrButton_GripTrigger) !=
+                (rightTrackedRemoteState_old.Buttons & ovrButton_GripTrigger)) {
 
-                sendButtonAction("+duck", (rightTrackedRemoteState_new.Buttons & ovrButton_A));
+                sendButtonAction("+duck", (rightTrackedRemoteState_new.Buttons & ovrButton_GripTrigger));
             }
 
 			//Weapon Chooser

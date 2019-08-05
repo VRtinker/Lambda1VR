@@ -84,14 +84,17 @@ void CMenuTouch::_Init( void )
     HMDDirection.SetNameAndStatus( "Use HMD for walking direction", "The walking direction is based on the forward direction of the HMD when ON\nThe walking direction is based on the forward direction of the Off-Hand Controller when OFF" );
     HMDDirection.SetCoord( 540, 380 );
     HMDDirection.LinkCvar( "vr_walkdirection" );
+    HMDDirection.onChanged= CMenuEditable::WriteCvarCb;
 
     WeaponRecoil.SetNameAndStatus( "Weapon Recoil", "Enables weapon recoil in VR, WARNING could make you sick" );
     WeaponRecoil.SetCoord( 540, 460 );
-    WeaponRecoil.LinkCvar( " vr_weaponrecoil" );
+    WeaponRecoil.LinkCvar( " vr_weapon_recoil" );
+    WeaponRecoil.onChanged = CMenuEditable::WriteCvarCb;
 
     hand.SetNameAndStatus( "Left-Handed", "Enable this if you are left-handed" );
     hand.SetCoord( 72, 380 );
     hand.LinkCvar( "hand" );
+    hand.onChanged = CMenuEditable::WriteCvarCb;
 
     done.SetNameAndStatus( "Done", "Go back to the Configuration Menu" );
     done.SetCoord( 670, 520 );

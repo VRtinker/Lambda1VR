@@ -64,8 +64,8 @@ void CMenuOptions::_Init( void )
 #endif
 	AddButton( "Audio",    "Change sound volume and quality",
 		PC_AUDIO, UI_Audio_Menu, QMF_NOTIFY );
-	AddButton( "Video",    "Change screen size, video mode and gamma",
-		PC_VIDEO, UI_Video_Menu, QMF_NOTIFY );
+	AddButton( "Video options", "Set video options such as screen size, gamma and image quality.",
+		PC_VID_OPT, UI_VidOptions_Menu, QMF_NOTIFY );
     AddButton( "VR Options",    "Change VR related settings",
         PC_TOUCH, UI_Touch_Menu, QMF_NOTIFY );
 #ifndef VR
