@@ -70,8 +70,8 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
 		}
 	}
 
-	static bool dominantGripPushed = false;
-	static float dominantGripPushTime = 0.0f;
+	static bool dominantButtonPushed = false;
+	static float dominantButtonPushTime = 0.0f;
 
     //Show screen view (if in multiplayer toggle scoreboard)
     if (((leftTrackedRemoteState_new.Buttons & ovrButton_Y) !=
@@ -228,18 +228,18 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
                 finishReloadNextFrame = false;
             }
 
-            if ((rightTrackedRemoteState_new.Buttons & ovrButton_GripTrigger) !=
-                (rightTrackedRemoteState_old.Buttons & ovrButton_GripTrigger)) {
+            if ((rightTrackedRemoteState_new.Buttons & ovrButton_B) !=
+                (rightTrackedRemoteState_old.Buttons & ovrButton_B)) {
 
-                dominantGripPushed = (rightTrackedRemoteState_new.Buttons & ovrButton_GripTrigger);
+                dominantButtonPushed = (rightTrackedRemoteState_new.Buttons & ovrButton_B);
 
-                if (dominantGripPushed)
+                if (dominantButtonPushed)
                 {
-                    dominantGripPushTime = GetTimeInMilliSeconds();
+                    dominantButtonPushTime = GetTimeInMilliSeconds();
                 }
                 else
                 {
-                    if ((GetTimeInMilliSeconds() - dominantGripPushTime) < vr_reloadtimeoutms->integer)
+                    if ((GetTimeInMilliSeconds() - dominantButtonPushTime) < vr_reloadtimeoutms->integer)
                     {
                         sendButtonActionSimple("+reload");
                         finishReloadNextFrame = true;
@@ -298,7 +298,7 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
             //in meantime, then it wouldn't stop the gun firing and it would get stuck
             static bool firingPrimary = false;
 
-			if (!firingPrimary && dominantGripPushed && (GetTimeInMilliSeconds() - dominantGripPushTime) > vr_reloadtimeoutms->integer)
+			if (!firingPrimary && dominantButtonPushed && (GetTimeInMilliSeconds() - dominantButtonPushTime) > vr_reloadtimeoutms->integer)
 			{
 				//Fire Secondary
 				if ((rightTrackedRemoteState_new.Buttons & ovrButton_Trigger) !=
@@ -327,7 +327,7 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
 
 			//Weapon Chooser
 			static bool weaponSwitched = false;
-			if (between(-0.2f, rightTrackedRemoteState_new.Joystick.x, 0.2f) &&
+			if ((rightTrackedRemoteState_new.Buttons & ovrButton_Joystick) &&
 				(between(0.8f, rightTrackedRemoteState_new.Joystick.y, 1.0f) ||
 				 between(-1.0f, rightTrackedRemoteState_new.Joystick.y, -0.8f)))
 			{

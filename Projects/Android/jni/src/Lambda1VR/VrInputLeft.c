@@ -69,8 +69,8 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 		}
 	}
 
-	static bool dominantGripPushed = false;
-	static float dominantGripPushTime = 0.0f;
+	static bool dominantButtonPushed = false;
+	static float dominantButtonPushTime = 0.0f;
 
 	//Show screen view (if in multiplayer toggle scoreboard)
 	if (((rightTrackedRemoteState_new.Buttons & ovrButton_B) !=
@@ -227,18 +227,18 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 				finishReloadNextFrame = false;
 			}
 
-			if ((leftTrackedRemoteState_new.Buttons & ovrButton_GripTrigger) !=
-				(leftTrackedRemoteState_old.Buttons & ovrButton_GripTrigger)) {
+			if ((leftTrackedRemoteState_new.Buttons & ovrButton_Y) !=
+				(leftTrackedRemoteState_old.Buttons & ovrButton_Y)) {
 
-				dominantGripPushed = (leftTrackedRemoteState_new.Buttons & ovrButton_GripTrigger);
+				dominantButtonPushed = (leftTrackedRemoteState_new.Buttons & ovrButton_Y);
 
-				if (dominantGripPushed)
+				if (dominantButtonPushed)
 				{
-					dominantGripPushTime = GetTimeInMilliSeconds();
+					dominantButtonPushTime = GetTimeInMilliSeconds();
 				}
 				else
 				{
-					if ((GetTimeInMilliSeconds() - dominantGripPushTime) < vr_reloadtimeoutms->integer)
+					if ((GetTimeInMilliSeconds() - dominantButtonPushTime) < vr_reloadtimeoutms->integer)
 					{
 						sendButtonActionSimple("+reload");
 						finishReloadNextFrame = true;
@@ -297,7 +297,7 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 			//in meantime, then it wouldn't stop the gun firing and it would get stuck
 			static bool firingPrimary = false;
 
-			if (!firingPrimary && dominantGripPushed && (GetTimeInMilliSeconds() - dominantGripPushTime) > vr_reloadtimeoutms->integer)
+			if (!firingPrimary && dominantButtonPushed && (GetTimeInMilliSeconds() - dominantButtonPushTime) > vr_reloadtimeoutms->integer)
 			{
 				//Fire Secondary
 				if ((leftTrackedRemoteState_new.Buttons & ovrButton_Trigger) !=
@@ -326,7 +326,7 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 
 			//Weapon Chooser
 			static bool weaponSwitched = false;
-			if (between(-0.2f, leftTrackedRemoteState_new.Joystick.x, 0.2f) &&
+			if ((leftTrackedRemoteState_new.Buttons & ovrButton_Joystick) &&
 				(between(0.8f, leftTrackedRemoteState_new.Joystick.y, 1.0f) ||
 				 between(-1.0f, leftTrackedRemoteState_new.Joystick.y, -0.8f)))
 			{
