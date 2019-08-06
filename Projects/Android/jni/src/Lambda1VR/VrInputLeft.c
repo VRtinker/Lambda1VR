@@ -35,6 +35,9 @@ float initialTouchX, initialTouchY;
 
 void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 {
+	//Ensure handedness is set to left
+	Cvar_Set("r_lefthand", "1");
+
 	//The amount of yaw changed by controller
 	//TODO: fixme
 	for ( int i = 0; ; i++ ) {
@@ -124,8 +127,6 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 	}
 	else
 	{
-		static bool weaponStabilisation = false;
-
 		//If distance to off-hand remote is less than 35cm and user pushes grip, then we enable weapon stabilisation
 		float distance = sqrtf(powf(rightRemoteTracking_new.HeadPose.Pose.Position.x - leftRemoteTracking_new.HeadPose.Pose.Position.x, 2) +
 							   powf(rightRemoteTracking_new.HeadPose.Pose.Position.y - leftRemoteTracking_new.HeadPose.Pose.Position.y, 2) +
@@ -139,12 +140,12 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 			{
 				if (distance < 0.50f)
 				{
-					weaponStabilisation = true;
+					Cvar_Set2("vr_weapon_stabilised", "1", true);
 				}
 			}
 			else
 			{
-				weaponStabilisation = false;
+				Cvar_Set2("vr_weapon_stabilised", "0", true);
 			}
 		}
 
@@ -190,7 +191,7 @@ void HandleInput_Left( ovrMobile * Ovr, double displayTime )
 			QuatToYawPitchRoll(quatRemote, weaponangles);
 
 
-			if (weaponStabilisation &&
+			if (vr_weapon_stabilised->integer &&
 				//Don't trigger stabilisation if controllers are close together (holding Glock for example)
 				(distance > 0.15f))
 			{

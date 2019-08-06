@@ -81,7 +81,7 @@ PFNEGLGETSYNCATTRIBKHRPROC		eglGetSyncAttribKHR;
 int CPU_LEVEL			= 2;
 int GPU_LEVEL			= 3;
 int NUM_MULTI_SAMPLES	= 1;
-float SS_MULTIPLIER    = 1.5f;
+float SS_MULTIPLIER    = 1.25f;
 
 vec2_t cylinderSize = {1280, 720};
 
@@ -103,6 +103,11 @@ char **argv;
 int argc=0;
 
 extern convar_t	*r_lefthand;
+
+enum control_scheme {
+	RIGHT_HANDED_DEFAULT = 0,
+	LEFT_HANDED_DEFAULT = 10
+};
 
 /*
 ================================================================================
@@ -1354,8 +1359,10 @@ void VR_Init()
     vr_walkdirection = Cvar_Get( "vr_walkdirection", "0", CVAR_ARCHIVE, "1 - Use HMD for direction, 0 - Use off-hand controller for direction" );
 	vr_weapon_pitchadjust = Cvar_Get( "vr_weapon_pitchadjust", "-20.0", CVAR_ARCHIVE, "gun pitch angle adjust" );
     vr_weapon_recoil = Cvar_Get( "vr_weapon_recoil", "0", CVAR_ARCHIVE, "Enables weapon recoil in VR, default is disabled, warning could make you sick" );
+	vr_weapon_stabilised = Cvar_Get( "vr_weapon_stabilised", "0", CVAR_READ_ONLY, "Whether user has engaged weapon stabilisation or not" );
     vr_lasersight = Cvar_Get( "vr_lasersight", "0", CVAR_ARCHIVE, "Enables laser-sight" );
     vr_fov = Cvar_Get( "vr_fov", "107", CVAR_ARCHIVE, "FOV for Lambda1VR" );
+	vr_control_scheme = Cvar_Get( "vr_control_scheme", "0", CVAR_ARCHIVE, "Controller Layout scheme" );
 
     //Not to be changed by users, as it will be overwritten anyway
 	vr_stereo_side = Cvar_Get( "vr_stereo_side", "0", CVAR_READ_ONLY, "Eye being drawn" );
@@ -1558,11 +1565,16 @@ void * AppThreadFunction( void * parm )
 
             ALOGV("        HMD-Position: %f, %f, %f", positionHmd.x, positionHmd.y, positionHmd.z);
 
-            if (r_lefthand->value) {
-				HandleInput_Left(appState.Ovr, appState.DisplayTime);
-			} else {
-				HandleInput_Right(appState.Ovr, appState.DisplayTime);
-            }
+            //Call additional control schemes here
+            switch (vr_control_scheme->integer)
+			{
+				case RIGHT_HANDED_DEFAULT:
+					HandleInput_Right(appState.Ovr, appState.DisplayTime);
+					break;
+				case LEFT_HANDED_DEFAULT:
+					HandleInput_Left(appState.Ovr, appState.DisplayTime);
+					break;
+			}
 
 			static usingScreenLayer = true; //Starts off using the screen layer
 			if (usingScreenLayer != useScreenLayer())

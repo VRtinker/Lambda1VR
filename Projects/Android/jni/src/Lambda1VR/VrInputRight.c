@@ -23,7 +23,6 @@ Authors		:	Simon Brown
 
 #include "VrInput.h"
 #include "VrCvars.h"
-#include "../../../../../../../VrApi/Include/VrApi_Input.h"
 
 extern cvar_t	*cl_forwardspeed;
 extern cvar_t	*cl_movespeedkey;
@@ -36,6 +35,9 @@ float initialTouchX, initialTouchY;
 
 void HandleInput_Right( ovrMobile * Ovr, double displayTime )
 {
+	//Ensure handedness is set to right
+	Cvar_Set("r_lefthand", "0");
+
     //The amount of yaw changed by controller
     //TODO: fixme
 	for ( int i = 0; ; i++ ) {
@@ -125,8 +127,6 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
     }
     else
     {
-        static bool weaponStabilisation = false;
-
         //If distance to off-hand remote is less than 35cm and user pushes grip, then we enable weapon stabilisation
         float distance = sqrtf(powf(leftRemoteTracking_new.HeadPose.Pose.Position.x - rightRemoteTracking_new.HeadPose.Pose.Position.x, 2) +
                                powf(leftRemoteTracking_new.HeadPose.Pose.Position.y - rightRemoteTracking_new.HeadPose.Pose.Position.y, 2) +
@@ -140,12 +140,12 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
             {
                 if (distance < 0.50f)
                 {
-                    weaponStabilisation = true;
+                	Cvar_Set2("vr_weapon_stabilised", "1", true);
                 }
             }
             else
             {
-                weaponStabilisation = false;
+				Cvar_Set2("vr_weapon_stabilised", "0", true);
             }
         }
 
@@ -191,7 +191,7 @@ void HandleInput_Right( ovrMobile * Ovr, double displayTime )
             QuatToYawPitchRoll(quatRemote, weaponangles);
 
 
-            if (weaponStabilisation &&
+            if (vr_weapon_stabilised->integer &&
                 //Don't trigger stabilisation if controllers are close together (holding Glock for example)
                 (distance > 0.15f))
             {
