@@ -1310,7 +1310,15 @@ void CL_AddEntities( void )
 	clgame.dllFuncs.CAM_Think ();
 
 	CL_AddPacketEntities( &cl.frame );
+
 	clgame.dllFuncs.pfnCreateEntities();
+
+	// add flashlight model if required
+	if( cl.frame.client.flags & FL_HAS_FLASHLIGHT  &&
+		cl.refdef.weapon.flags != 1) // Make sure weapon isn't being stabilised
+	{
+		CL_AttachFlashlightEntityToPlayer( "models/v_torch.mdl", cl.refdef.flashlight.org, cl.refdef.flashlight.angles);
+	}
 
 	CL_FireEvents();	// so tempents can be created immediately
 	CL_AddTempEnts();
